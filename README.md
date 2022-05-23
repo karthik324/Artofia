@@ -1,6 +1,6 @@
 # artsophia
 
-A new Flutter project.
+My Second Project, which is a bid app where you can sell your arts. 
 
 ## Getting Started
 
