@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         cacheImage(context, images);
         return MaterialApp(
-          title: 'Artsophia',
+          title: 'Artofia',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             fontFamily: GoogleFonts.dongle().fontFamily,

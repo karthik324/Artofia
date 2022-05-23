@@ -6,7 +6,7 @@ class CustomTextField extends StatelessWidget {
   final IconData iconData;
   final TextInputType? keyboardType;
   final String hintText;
-  final String Function(String?)? validator;
+  final String? Function(String?)? validator;
   final bool isPassword;
   final TextCapitalization textCapitalization;
   final TextInputAction textInputAction;
@@ -39,6 +39,7 @@ class CustomTextField extends StatelessWidget {
             margin: EdgeInsets.only(right: 4.w),
             width: double.maxFinite,
             child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               textInputAction: textInputAction,
               obscureText: isPassword,
               cursorColor: kPrimaryColor,

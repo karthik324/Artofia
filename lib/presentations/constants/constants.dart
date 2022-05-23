@@ -42,7 +42,7 @@ mixin InputValidatorMixin {
     }
   }
 
-  String isEmailValid(String? value) {
+  String? isEmailValid(String? value) {
     String pattern =
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regExp = RegExp(pattern);
@@ -52,15 +52,15 @@ mixin InputValidatorMixin {
     if (!regExp.hasMatch(value)) {
       return "Please enter a valid email";
     } else {
-      return '';
+      return null;
     }
   }
 
-  String isPasswordValid(String? value) {
+  String? isPasswordValid(String? value) {
     if (value!.length < 8) {
       return "Password must contain 8 characters";
     } else {
-      return '';
+      return null;
     }
   }
 }

@@ -13,6 +13,21 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _Scaffold(imageProvider: imageProvider);
+  }
+}
+
+class _Scaffold extends StatelessWidget with InputValidatorMixin {
+  _Scaffold({
+    Key? key,
+    required this.imageProvider,
+  }) : super(key: key);
+
+  final ImageProvider<Object> imageProvider;
+  final _globalKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -25,69 +40,84 @@ class SignUpScreen extends StatelessWidget {
         body: Stack(
           children: [
             SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 100),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 2.5.w),
-                      child: AnimatedTextKit(
-                        isRepeatingAnimation: false,
-                        animatedTexts: [
-                          TyperAnimatedText(
-                            'SIGNUP',
-                            speed: const Duration(milliseconds: 280),
-                            textStyle: kBigHeadStyle,
-                            curve: Curves.bounceInOut,
-                          ),
-                        ],
+              child: Form(
+                key: _globalKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FadeInDown(
+                      delay: const Duration(milliseconds: 100),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 2.5.w),
+                        child: AnimatedTextKit(
+                          isRepeatingAnimation: false,
+                          animatedTexts: [
+                            TyperAnimatedText(
+                              'SIGNUP',
+                              speed: const Duration(milliseconds: 280),
+                              textStyle: kBigHeadStyle,
+                              curve: Curves.bounceInOut,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 200),
-                    child: const CustomTextField(
-                      hintText: "Name",
-                      iconData: Icons.person_outline_outlined,
-                      keyboardType: TextInputType.name,
-                      textCapitalization: TextCapitalization.words,
-                      textInputAction: TextInputAction.next,
+                    FadeInDown(
+                      delay: const Duration(milliseconds: 200),
+                      child: CustomTextField(
+                        hintText: "Name",
+                        iconData: Icons.person_outline_outlined,
+                        keyboardType: TextInputType.name,
+                        textCapitalization: TextCapitalization.words,
+                        textInputAction: TextInputAction.next,
+                        validator: (val) {
+                          return isNameValid(val);
+                        },
+                      ),
                     ),
-                  ),
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 300),
-                    child: const CustomTextField(
-                      hintText: "Email Address",
-                      iconData: Icons.alternate_email,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
+                    FadeInDown(
+                      delay: const Duration(milliseconds: 300),
+                      child: CustomTextField(
+                        hintText: "Email Address",
+                        iconData: Icons.alternate_email,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        validator: (val) {
+                          return isEmailValid(val);
+                        },
+                      ),
                     ),
-                  ),
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 400),
-                    child: const CustomTextField(
-                      iconData: Icons.lock_outline,
-                      hintText: "Password",
-                      isPassword: true,
-                      textInputAction: TextInputAction.next,
+                    FadeInDown(
+                      delay: const Duration(milliseconds: 400),
+                      child: CustomTextField(
+                        iconData: Icons.lock_outline,
+                        hintText: "Password",
+                        isPassword: true,
+                        textInputAction: TextInputAction.next,
+                        validator: (val) {
+                          return isPasswordValid(val);
+                        },
+                      ),
                     ),
-                  ),
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 500),
-                    child: const CustomTextField(
-                      iconData: Icons.lock_reset_outlined,
-                      hintText: "Confirm Password",
-                      isPassword: true,
-                      textInputAction: TextInputAction.done,
+                    FadeInDown(
+                      delay: const Duration(milliseconds: 500),
+                      child: CustomTextField(
+                        iconData: Icons.lock_reset_outlined,
+                        hintText: "Confirm Password",
+                        isPassword: true,
+                        textInputAction: TextInputAction.done,
+                        validator: (val) {
+                          return isPasswordValid(val);
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Positioned(
-              top: 76.h,
+              top: 83.h,
               left: 25.w,
               child: FadeInDown(
                 delay: const Duration(milliseconds: 400),
@@ -95,13 +125,17 @@ class SignUpScreen extends StatelessWidget {
                   horizontalPadding: 9.h,
                   verticalPadding: 3.w,
                   title: 'Register',
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_globalKey.currentState!.validate()) {
+                      print('jaichu');
+                    }
+                  },
                 ),
               ),
             ),
             Positioned(
-              top: 85.h,
-              right: 0.w,
+              top: 92.h,
+              left: 15.w,
               child: Row(
                 children: [
                   FadeIn(
@@ -109,24 +143,25 @@ class SignUpScreen extends StatelessWidget {
                     child: CustomTextSpan(
                       text: 'Already have an account? ',
                       spanText: 'Login',
-                      onPress: TapGestureRecognizer()..onTap = () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return const LoginScreen();
-                          },
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
+                      onPress: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return const LoginScreen();
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
                     ),
                   ),
                 ],

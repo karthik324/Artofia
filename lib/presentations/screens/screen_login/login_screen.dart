@@ -24,7 +24,7 @@ class _Scaffold extends StatelessWidget with InputValidatorMixin {
   }) : super(key: key);
 
   final ImageProvider<Object> imageProvider;
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final _globalKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,6 @@ class _Scaffold extends StatelessWidget with InputValidatorMixin {
             SafeArea(
               child: Form(
                 key: _globalKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -111,7 +110,7 @@ class _Scaffold extends StatelessWidget with InputValidatorMixin {
             ),
             Positioned(
               top: 80.h,
-              right: 0.w,
+              left: 14.w,
               child: Row(
                 children: [
                   FadeIn(
@@ -121,7 +120,7 @@ class _Scaffold extends StatelessWidget with InputValidatorMixin {
                       spanText: 'SignUp',
                       onPress: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               pageBuilder:
