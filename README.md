@@ -1,6 +1,7 @@
 # artsophia
 
 My Second Project, which is a bid app where you can sell your arts. 
+Backend - Node API
 
 ## Getting Started
 
