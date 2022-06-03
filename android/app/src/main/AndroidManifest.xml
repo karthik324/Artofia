@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.artsophia">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="artsophia"
         android:name="${applicationName}"

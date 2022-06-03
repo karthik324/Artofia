@@ -1,5 +1,6 @@
 import 'package:artsophia/presentations/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -11,11 +12,15 @@ class CustomTextField extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final TextInputAction textInputAction;
   final Function(String)? onChanged;
+  final int? maxLines;
+  final int? maxLength;
   const CustomTextField({
     required this.iconData,
     this.validator,
     this.keyboardType,
     required this.hintText,
+    this.maxLength,
+    this.maxLines,
     this.isPassword = false,
     this.textInputAction = TextInputAction.none,
     this.textCapitalization = TextCapitalization.none,
@@ -39,6 +44,8 @@ class CustomTextField extends StatelessWidget {
             margin: EdgeInsets.only(right: 4.w),
             width: double.maxFinite,
             child: TextFormField(
+              maxLength: maxLength,
+              maxLines: maxLines,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               textInputAction: textInputAction,
               obscureText: isPassword,
@@ -48,12 +55,14 @@ class CustomTextField extends StatelessWidget {
               style: kHeadStyle.copyWith(fontSize: 24),
               decoration: InputDecoration(
                 hintText: hintText,
+                helperStyle: kHeadStyle,
                 focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: kPrimaryColor,
                   ),
                 ),
-                errorStyle: kHeadStyle.copyWith(color: Colors.red, fontSize: 20),
+                errorStyle:
+                    kHeadStyle.copyWith(color: Colors.red, fontSize: 20),
                 hintStyle:
                     kHeadStyle.copyWith(color: Colors.grey, fontSize: 24),
               ),

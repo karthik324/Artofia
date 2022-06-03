@@ -1,9 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:artsophia/logic/cubit/nav_cubit.dart';
 import 'package:artsophia/presentations/constants/constants.dart';
 import 'package:artsophia/presentations/screens/screens_and_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,6 +13,78 @@ class LoginOrSignupScreen extends StatelessWidget {
   final ImageProvider imageProvider =
       const AssetImage('assets/images/landing_bg.jpg');
   const LoginOrSignupScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => NavCubit(),
+      child: BlocListener<NavCubit, NavState>(
+        listener: (context, state) {
+          if (state is NavToScreen) {
+            if (state.nav == Nav.userLogin) {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return const LoginScreen();
+                  },
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            } else if (state.nav == Nav.admin) {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return const AdminLoginScreen();
+                  },
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            } else if (state.nav == Nav.signUp) {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return const SignUpScreen();
+                  },
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            }
+          }
+        },
+        child: _Scaffold(imageProvider: imageProvider),
+      ),
+    );
+  }
+}
+
+class _Scaffold extends StatelessWidget {
+  const _Scaffold({
+    Key? key,
+    required this.imageProvider,
+  }) : super(key: key);
+
+  final ImageProvider<Object> imageProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -54,22 +128,7 @@ class LoginOrSignupScreen extends StatelessWidget {
                     bottomMargin: 1.h,
                     title: 'Login',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return const LoginScreen();
-                          },
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
+                      context.read<NavCubit>().navToUserLogin();
                     },
                   ),
                 ),
@@ -79,23 +138,8 @@ class LoginOrSignupScreen extends StatelessWidget {
                     horizontalPadding: 9.h,
                     verticalPadding: 3.w,
                     title: 'SignUp',
-                    onPressed:() {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return const SignUpScreen();
-                          },
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
+                    onPressed: () {
+                      context.read<NavCubit>().navToSignUp();
                     },
                   ),
                 ),
@@ -104,24 +148,10 @@ class LoginOrSignupScreen extends StatelessWidget {
                   child: CustomTextSpan(
                     text: 'Login as ',
                     spanText: 'Admin?',
-                    onPress: TapGestureRecognizer()..onTap = () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return const AdminLoginScreen();
-                          },
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
+                    onPress: TapGestureRecognizer()
+                      ..onTap = () {
+                        context.read<NavCubit>().navToAdmin();
+                      },
                   ),
                 ),
               ],

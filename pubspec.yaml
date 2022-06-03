@@ -30,13 +30,21 @@ dependencies:
   animate_do: 2.1.0
   animated_splash_screen: 1.2.0
   animated_text_kit: 4.2.1
+  bloc: 8.0.3
   cupertino_icons: ^1.0.2
   equatable: 2.0.3
+  chat_bubbles: 1.2.0
+  flutter_basic_chat_bubble: 0.2.0+2
+  ionicons: 0.1.2
+  colorful_safe_area: 0.3.0
   flutter:
     sdk: flutter
+  flutter_bloc: 8.0.1
+  font_awesome_flutter: 10.1.0
   google_fonts: 2.3.2
+  hidable: 1.0.2
+  persistent_bottom_nav_bar: 4.0.2
   sizer: 2.0.15
-  
 
 dev_dependencies:
   flutter_lints: ^1.0.0

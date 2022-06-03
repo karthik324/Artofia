@@ -1,9 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:artsophia/logic/cubit/nav_cubit.dart';
 import 'package:artsophia/presentations/constants/constants.dart';
 import 'package:artsophia/presentations/screens/screens_and_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -13,7 +15,31 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Scaffold(imageProvider: imageProvider);
+    return BlocProvider(
+      create: (context) => NavCubit(),
+      child: BlocListener<NavCubit, NavState>(
+        listener: (context, state) {
+          if (state is NavToScreen && state.nav == Nav.userLogin) {
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return const LoginScreen();
+                },
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              ),
+            );
+          }
+        },
+        child: _Scaffold(imageProvider: imageProvider),
+      ),
+    );
   }
 }
 
@@ -145,22 +171,7 @@ class _Scaffold extends StatelessWidget with InputValidatorMixin {
                       spanText: 'Login',
                       onPress: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return const LoginScreen();
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ),
-                          );
+                          context.read<NavCubit>().navToUserLogin();
                         },
                     ),
                   ),

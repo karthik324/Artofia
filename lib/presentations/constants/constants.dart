@@ -6,11 +6,17 @@ const kBackGroundColor = Color(0xFF202020);
 const kPrimaryColor = Color(0xFFFFBD73);
 const kWhiteColor = Colors.white;
 const kBlackColor = Colors.black;
-const kWidth = SizedBox(
-  width: 10,
+final kWidth = SizedBox(
+  width: 2.w,
 );
-const kHeight = SizedBox(
-  height: 10,
+final kBigWidth = SizedBox(
+  width: 7.w,
+);
+final kHeight = SizedBox(
+  height: 10.h,
+);
+final kSmallHeight = SizedBox(
+  height: 4.h,
 );
 final kBigHeadStyle = TextStyle(
   fontSize: 40.sp,
@@ -62,5 +68,36 @@ mixin InputValidatorMixin {
     } else {
       return null;
     }
+  }
+}
+
+Map<int, Color> color = {
+  50: const Color.fromRGBO(255, 189, 115, .1),
+  100: const Color.fromRGBO(255, 189, 115, .2),
+  200: const Color.fromRGBO(255, 189, 115, .3),
+  300: const Color.fromRGBO(255, 189, 115, .4),
+  400: const Color.fromRGBO(255, 189, 115, .5),
+  500: const Color.fromRGBO(255, 189, 115, .6),
+  600: const Color.fromRGBO(255, 189, 115, .7),
+  700: const Color.fromRGBO(255, 189, 115, .8),
+  800: const Color.fromRGBO(255, 189, 115, .9),
+  900: const Color.fromRGBO(255, 189, 115, 1),
+};
+
+MaterialColor colorCustom = MaterialColor(0xFFFFBD73, color);
+
+final List<String> images = [
+  'assets/images/landing_bg.jpg',
+  'assets/images/login_page_bg.jpg',
+  'assets/images/logo.jpg',
+  'assets/images/signup_page_bg.jpg',
+  'assets/images/admin_login_bg.jpg',
+];
+
+void cacheImage(BuildContext context, List<String> imageList) {
+  int i = 0;
+  while (i < imageList.length) {
+    precacheImage(AssetImage(imageList[i]), context);
+    i++;
   }
 }
