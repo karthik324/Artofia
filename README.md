@@ -3,6 +3,8 @@
 My Second Project, which is a bid app where you can sell your arts. 
 Backend - Node API
 
+Couldn't complete had to quit on the way.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
